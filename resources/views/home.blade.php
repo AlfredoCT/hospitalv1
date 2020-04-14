@@ -19,6 +19,9 @@
                     <div class="row">
                         <a href="{{route('consulta.index')}}"><button class="btn btn-primary">Consultas</button>
                     </div>
+                    <div class="row">
+                        <a href="{{route('paciente.index')}}"><button class="btn btn-primary">Pacientes</button>
+                    </div>
                 </div>
             </div>
         </div>

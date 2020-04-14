@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use Gate;
 use Illuminate\Http\Request;
 
 class ConsultaController extends Controller

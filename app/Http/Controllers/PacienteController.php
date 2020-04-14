@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Paciente;
+use App;
+use Gate;
 use Illuminate\Http\Request;
 
 class PacienteController extends Controller
@@ -14,7 +15,8 @@ class PacienteController extends Controller
      */
     public function index()
     {
-        //
+        $pacientes = App\Paciente::orderby('nombre', 'asc')->get();
+        return view('paciente.ver', compact('pacientes'));
     }
 
     /**
@@ -24,7 +26,12 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        //
+        if (Gate::denies('crear-paciente'))
+        {
+            return redirect()->route('paciente.ver');
+        }
+        $salas = App\Sala::orderby('nombre', 'asc')->get();
+        return view('paciente.crear', compact('salas'));
     }
 
     /**
@@ -35,7 +42,22 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'idsala' => 'required',
+            'cedula' => 'required',
+            'registro' => 'required',
+            'cama' => 'required',
+            'nombre' => 'required',
+            'direccion' => 'required',
+            'nacimiento' => 'required',
+            'sexo' => 'required'
+             
+            ]);
+
+            App\Paciente::create($request->all());      
+            
+            return redirect()->route('paciente.ver')
+                    ->with('exito', 'paciente agregado correctamente');
     }
 
     /**
@@ -44,9 +66,14 @@ class PacienteController extends Controller
      * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Response
      */
-    public function show(Paciente $paciente)
+    public function show($id)
     {
-        //
+        $paciente = App\Paciente::join('salas', 'pacientes.idsala', 'salas.id')
+        ->select('pacientes.*', 'salas.nombre as salas')
+        ->where('pacientes.id', $id)
+        ->first();
+
+        return view('paciente.detalle', compact('paciente'));
     }
 
     /**
@@ -55,9 +82,17 @@ class PacienteController extends Controller
      * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Response
      */
-    public function edit(Paciente $paciente)
+    public function edit($id)
     {
-        //
+        if (Gate::denies('editar-paciente'))
+        {
+            return redirect()->route('paciente.ver');
+        }
+
+        $salas = App\Sala::orderby('nombre', 'asc')->get();
+        $paciente = App\Paciente::findorfail($id);
+
+        return view('paciente.editar', compact('paciente', 'salas'));
     }
 
     /**
@@ -67,9 +102,25 @@ class PacienteController extends Controller
      * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Paciente $paciente)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'idsala' => 'required'  ,
+            'cedula' => 'required',
+            'registro' => 'required',
+            'cama' => 'required',
+            'nombre' => 'required',
+            'direccion' => 'required',
+            'nacimiento' => 'required',
+            'sexo' => 'required'           
+        ]);
+        
+        $paciente = App\Paciente::findorfail($id);
+
+        $paciente->update($request->all());
+
+        return redirect()->route('paciente.ver')
+                ->with('exito', 'se ha modificado el paciente exitosamente');
     }
 
     /**
@@ -78,8 +129,18 @@ class PacienteController extends Controller
      * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Paciente $paciente)
+    public function destroy($id)
     {
-        //
+        if (Gate::denies('eliminar-paciente'))
+        {
+            return redirect()->route('paciente.ver');
+        }
+
+        $paciente = App\Paciente::findorfail($id);
+
+        $paciente->delete();
+
+        return redirect()->route('paciente.ver')
+                ->with('exito', 'se elimino el paciente correctamente');
     }
 }
