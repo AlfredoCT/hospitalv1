@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Fecha;
+use App;
+use Gate;
 use Illuminate\Http\Request;
 
 class FechaController extends Controller
@@ -14,7 +15,8 @@ class FechaController extends Controller
      */
     public function index()
     {
-        //
+        $fecha = App\Fecha::orderby('fecha', 'asc')->get();
+        return view('fecha.ver', compact('fechas'));
     }
 
     /**
@@ -24,7 +26,13 @@ class FechaController extends Controller
      */
     public function create()
     {
-        //
+        if (Gate::denies('crear-fecha'))
+        {
+            return redirect()->route('fecha.ver');
+        }
+        $diagnosticos = App\Diagnostico::orderby('tipo', 'asc')->get();
+        $pacientes = App\Paciente::orderby('nombre', 'asc')->get();
+        return view('fecha.crear', compact('diagnosticos', 'pacientes'));
     }
 
     /**
@@ -35,7 +43,16 @@ class FechaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'idpaciente' => 'required',
+            'iddiagnostico' => 'required',
+            'fecha' => 'required'       
+        ]);
+
+        App\Fecha::create($request->all());      
+        
+        return redirect()->route('fecha.ver')
+                ->with('exito', 'se creo la fecha con exito');
     }
 
     /**
@@ -44,9 +61,16 @@ class FechaController extends Controller
      * @param  \App\Fecha  $fecha
      * @return \Illuminate\Http\Response
      */
-    public function show(Fecha $fecha)
+    public function show($id)
     {
-        //
+        $fecha = App\Fecha::join('diagnosticos', 'fecha.iddiagnostico', 'diagnosticos.id',
+                                       'pacientes', 'fecha.idpaciente', 'pacientes.id')
+                                ->select('fecha.*', 'diagnosticos.nombre as diagnostico',
+                                         'fecha.*', 'pacientes.nombre as paciente')
+                                ->where('fecha.id', $id)
+                                ->first();
+        
+        return view('fecha.detalle', compact('fecha'));
     }
 
     /**
@@ -55,9 +79,18 @@ class FechaController extends Controller
      * @param  \App\Fecha  $fecha
      * @return \Illuminate\Http\Response
      */
-    public function edit(Fecha $fecha)
+    public function edit($id)
     {
-        //
+        if (Gate::denies('editar-fecha'))
+        {
+            return redirect()->route('fecha.ver');
+        }
+
+        $diagnosticos = App\Diagnostico::orderby('tipo', 'asc')->get();
+        $pacientes = App\Paciente::orderby('nombre', 'asc')->get();
+        $fecha = App\Fecha::findorfail($id);
+
+        return view('fecha.editar', compact('fecha', 'diagnosticos', 'pacientes'));
     }
 
     /**
@@ -67,9 +100,20 @@ class FechaController extends Controller
      * @param  \App\Fecha  $fecha
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Fecha $fecha)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'idpaciente' => 'required',
+            'iddiagnostico' => 'required',      
+            'fecha' => 'required',     
+        ]);
+        
+        $fecha = App\Fecha::findorfail($id);
+
+        $fecha->update($request->all());
+
+        return redirect()->route('fecha.ver')
+                ->with('exito', 'se modifico la fecha con exito');
     }
 
     /**
@@ -78,8 +122,18 @@ class FechaController extends Controller
      * @param  \App\Fecha  $fecha
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Fecha $fecha)
+    public function destroy($id)
     {
-        //
+        if (Gate::denies('eliminar-fecha'))
+        {
+            return redirect()->route('fecha.ver');
+        }
+
+        $fecha = App\Fecha::findorfail($id);
+
+        $fecha->delete();
+
+        return redirect()->route('fecha.ver')
+                ->with('exito', 'se elimino la fecha con exito');
     }
 }

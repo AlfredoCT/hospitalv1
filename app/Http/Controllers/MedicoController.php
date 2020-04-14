@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Medico;
+use App;
+use Gate;
 use Illuminate\Http\Request;
 
 class MedicoController extends Controller
@@ -14,7 +15,8 @@ class MedicoController extends Controller
      */
     public function index()
     {
-        //
+        $medicos = App\Medico::orderby('nombre', 'asc')->get();
+        return view('medico.ver', compact('medicos'));
     }
 
     /**
@@ -24,7 +26,12 @@ class MedicoController extends Controller
      */
     public function create()
     {
-        //
+        if (Gate::denies('crear-medico'))
+        {
+            return redirect()->route('medico.ver');
+        }
+        $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
+        return view('medico.crear', compact('hospitales'));
     }
 
     /**
@@ -35,7 +42,17 @@ class MedicoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'idhospital' => 'required',
+            'cedula' => 'required',
+            'nombre' => 'required',
+            'especialidad' => 'required'                 
+        ]);
+
+        App\Medico::create($request->all());      
+        
+        return redirect()->route('medico.ver')
+                ->with('exito', 'Se agrego un medico con exito');
     }
 
     /**
@@ -44,9 +61,14 @@ class MedicoController extends Controller
      * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function show(Medico $medico)
+    public function show($id)
     {
-        //
+        $medico = App\Medico::join('hospitals', 'medicos.idhospital', 'hospitals.id')
+                            ->select('medicos.*', 'hospitals.nombre as hospital')
+                            ->where('medicos.id', $id)
+                            ->first();
+        
+        return view('medico.detalle', compact('medico'));
     }
 
     /**
@@ -55,11 +77,18 @@ class MedicoController extends Controller
      * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medico $medico)
+    public function edit($id)
     {
-        //
-    }
+        if (Gate::denies('editar-medico'))
+        {
+            return redirect()->route('medico.ver');
+        }
 
+        $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
+        $medico = App\Medico::findorfail($id);
+
+        return view('medico.editar', compact('medico', 'hospitales'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -67,9 +96,21 @@ class MedicoController extends Controller
      * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Medico $medico)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'idhospital' => 'required',   
+            'cedula' => 'required',
+            'nombre' => 'required',
+            'especialidad' => 'required',          
+        ]);
+        
+        $medico = App\Medico::findorfail($id);
+
+        $medico->update($request->all());
+
+        return redirect()->route('medico.ver')
+                ->with('exito', 'Cambios guardados con exito');
     }
 
     /**
@@ -78,8 +119,18 @@ class MedicoController extends Controller
      * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Medico $medico)
+    public function destroy($id)
     {
-        //
+        if (Gate::denies('eliminar-medico'))
+        {
+            return redirect()->route('medico.ver');
+        }
+
+        $medico = App\Medico::findorfail($id);
+
+        $medico->delete();
+
+        return redirect()->route('medico.ver')
+                ->with('exito', 'Medico eliminado con exito');
     }
 }

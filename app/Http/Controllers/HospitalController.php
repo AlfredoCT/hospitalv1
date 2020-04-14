@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Hospital;
+use App;
+use Gate;
 use Illuminate\Http\Request;
 
 class HospitalController extends Controller
@@ -14,7 +15,8 @@ class HospitalController extends Controller
      */
     public function index()
     {
-        //
+        $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
+        return view('hospital.ver', compact('hospitales'));
     }
 
     /**
@@ -24,7 +26,11 @@ class HospitalController extends Controller
      */
     public function create()
     {
-        //
+        if (Gate::denies('crear-hospital'))
+        {
+            return redirect()->route('hospital.ver');
+        }
+        return view('hospital.crear');
     }
 
     /**
@@ -35,7 +41,18 @@ class HospitalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'codigo' => 'required',
+            'nombre' => 'required',
+            'direccion' => 'required',
+            'telefono' => 'required',
+            'ncamas' => 'required'
+        ]);
+
+        App\Hospital::create($request->all());      
+        
+        return redirect()->route('hospital.ver')
+                ->with('exito', 'se creo un hospital con exito');
     }
 
     /**
@@ -44,9 +61,11 @@ class HospitalController extends Controller
      * @param  \App\Hospital  $hospital
      * @return \Illuminate\Http\Response
      */
-    public function show(Hospital $hospital)
+    public function show($id)
     {
-        //
+        $hospital = App\Hospital::findorfail($id);
+        
+        return view('hospital.detalle', compact('hospital'));
     }
 
     /**
@@ -55,9 +74,15 @@ class HospitalController extends Controller
      * @param  \App\Hospital  $hospital
      * @return \Illuminate\Http\Response
      */
-    public function edit(Hospital $hospital)
+    public function edit($id)
     {
-        //
+        if (Gate::denies('editar-hospital'))
+        {
+            return redirect()->route('hospital.ver');
+        }
+        $hospital = App\Hospital::findorfail($id);
+
+        return view('hospital.editar', compact('hospital'));
     }
 
     /**
@@ -67,9 +92,22 @@ class HospitalController extends Controller
      * @param  \App\Hospital  $hospital
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Hospital $hospital)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'codigo' => 'required',
+            'nombre' => 'required',
+            'direccion' => 'required',
+            'telefono' => 'required',
+            'ncamas' => 'required'
+        ]);
+        
+        $hospital = App\Hospital::findorfail($id);
+
+        $hospital->update($request->all());
+
+        return redirect()->route('hospital.ver')
+                ->with('exito', 'Los cambios se realizaron con exito');
     }
 
     /**
@@ -78,8 +116,18 @@ class HospitalController extends Controller
      * @param  \App\Hospital  $hospital
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Hospital $hospital)
+    public function destroy($id)
     {
-        //
+        if (Gate::denies('eliminar-hospital'))
+        {
+            return redirect()->route('hospital.ver');
+        }
+
+        $hospital = App\Hospital::findorfail($id);
+
+        $hospital->delete();
+
+        return redirect()->route('hospital.ver')
+                ->with('exito', 'Hospital Eliminado');
     }
 }

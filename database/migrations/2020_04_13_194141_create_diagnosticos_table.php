@@ -17,7 +17,7 @@ class CreateDiagnosticosTable extends Migration
             $table->bigIncrements('id');
             $table->string('codigo');
             $table->string('tipo');
-            $table->string('compilacion');   
+            $table->string('complicaciones');   
             $table->timestamps();
         });
     }
