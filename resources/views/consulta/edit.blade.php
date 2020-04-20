@@ -59,12 +59,10 @@
     </div> 
 
     <div class="form-row">
-        <button type="submit" class="btn btn-primary">Guardar consulta</button>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </div>
     </form>
 
-<div class="row">
-    <a href="{{route('consulta.index')}} "><button class="btn btn-primary">Regresar</button></a>
-</div>
+
 
 @endsection

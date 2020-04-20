@@ -5,7 +5,7 @@ Paciente
 @endsection
 
 @section('contenido')
-<h1 class="text-center">Pacientes</h1>
+<h1 class="text-center">Paciente</h1>
 <br><br>
     @if ($message = Session::get('exito'))
         <div class="alert alert success">
@@ -24,6 +24,7 @@ Paciente
                 <th>Direccion</th>
                 <th>Fecha de nacimiento</th>
                 <th>Sexo</th> 
+                <th>Acciones</th> 
             <tr>
         </thead>
         <tbody>
@@ -54,6 +55,7 @@ Paciente
 
     <div class="row">
         <a href="{{route('paciente.create')}} "><button class="btn btn-success">Crear paciente</button></a>
-        <a href="{{route('diagnostico.index')}}"><button class="btn btn-success">Diagnosticar paciente</button></a>
+        &nbsp
+        <a href="{{route('home')}}"><button class="btn btn-secondary">Volver</button></a>
     </div>
 @endsection

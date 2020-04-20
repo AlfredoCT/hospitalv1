@@ -47,6 +47,8 @@ Laboratorio
 
     <div class="row">
         <a href="{{route('laboratorio.create')}} "><button class="btn btn-success">Crear laboratorio</button></a>
+        &nbsp
+        <a href="{{route('home')}} "><button class="btn btn-secondary">Volver</button></a>
     </div>
 @endsection
 

@@ -4,7 +4,7 @@
  
 @section('contenido')
 
-<h1 class="text-center">Editar fecha del diagnostico</h1>
+<h1 class="text-center">Editar fecha</h1>
 <br><br>
 
 @if($errors->any())
@@ -57,7 +57,7 @@
         </div>
     </div> 
         <div class="form-row">
-            <button type="submit" class="btn btn-primary">Guardar Modificacion</button>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </div>
     </form>
 

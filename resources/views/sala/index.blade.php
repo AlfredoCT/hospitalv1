@@ -1,4 +1,4 @@
-extends('layouts.layout')
+@extends('layouts.layout')
 
 @section('titulo')
 Sala
@@ -47,6 +47,7 @@ Sala
 
     <div class="row">
         <a href="{{route('sala.create')}} "><button class="btn btn-success">Guardar Sala</button></a>
-        <a href="{{route('paciente.index')}}"><button class="btn btn-success">Pacientes</button></a>
+        &nbsp
+        <a href="{{route('home')}}"><button class="btn btn-secondary">Volver</button></a>
     </div>
 @endsection

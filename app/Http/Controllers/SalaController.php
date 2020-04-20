@@ -16,7 +16,7 @@ class SalaController extends Controller
     public function index()
     {
         $salas = App\Sala::orderby('nombre', 'asc')->get();
-        return view('sala.ver', compact('salas'));
+        return view('sala.index', compact('salas'));
     }
 
     /**
@@ -28,10 +28,10 @@ class SalaController extends Controller
     {
         if (Gate::denies('crear-sala'))
         {
-            return redirect()->route('sala.ver');
+            return redirect()->route('sala.index');
         }
         $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
-        return view('sala.crear', compact('hospitales'));
+        return view('sala.insert', compact('hospitales'));
     }
 
     /**
@@ -51,7 +51,7 @@ class SalaController extends Controller
 
         App\Sala::create($request->all());      
         
-        return redirect()->route('sala.ver')
+        return redirect()->route('sala.index')
                 ->with('exito', 'Sala creada con exito');
     }
 
@@ -68,7 +68,7 @@ class SalaController extends Controller
                             ->where('salas.id', $id)
                             ->first();
         
-        return view('sala.detalle', compact('sala'));
+        return view('sala.view', compact('sala'));
     }
 
     /**
@@ -81,13 +81,13 @@ class SalaController extends Controller
     {
         if (Gate::denies('editar-sala'))
         {
-            return redirect()->route('sala.ver');
+            return redirect()->route('sala.index');
         }
 
         $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
         $sala = App\Sala::findorfail($id);
 
-        return view('sala.editar', compact('sala', 'hospitales'));
+        return view('sala.edit', compact('sala', 'hospitales'));
     }
 
     /**
@@ -110,7 +110,7 @@ class SalaController extends Controller
 
         $sala->update($request->all());
 
-        return redirect()->route('sala.ver')
+        return redirect()->route('sala.index')
                 ->with('exito', 'Cambios guardados con exito');
     }
 
@@ -124,14 +124,14 @@ class SalaController extends Controller
     {
         if (Gate::denies('eliminar-sala'))
         {
-            return redirect()->route('sala.ver');
+            return redirect()->route('sala.index');
         }
 
         $sala = App\Sala::findorfail($id);
 
         $sala->delete();
 
-        return redirect()->route('sala.ver')
+        return redirect()->route('sala.index')
                 ->with('exito', 'Sala eliminada');
     }
 }

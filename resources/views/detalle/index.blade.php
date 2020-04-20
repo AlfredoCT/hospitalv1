@@ -47,5 +47,7 @@ Detalles
 
     <div class="row">
         <a href="{{route('detalle.create')}} "><button class="btn btn-success">Crear Detalle</button></a>
+        &nbsp
+        <a href="{{route('home')}} "><button class="btn btn-secondary">Volver</button></a>
     </div>
 @endsection

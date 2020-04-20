@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @section('titulo')
-Crear nuevo hospital
+Crear hospital
 @endsection
 
 @section('contenido')

@@ -16,7 +16,7 @@ class ConsultaController extends Controller
     public function index()
     {
         $consultas = App\Consulta::orderby('fecha', 'asc')->get();
-        return view('consulta.ver', compact('consultas'));
+        return view('consulta.index', compact('consultas'));
     }
 
     /**
@@ -28,11 +28,11 @@ class ConsultaController extends Controller
     {
         if (Gate::denies('crear-consulta'))
         {
-            return redirect()->route('consulta.ver');
+            return redirect()->route('consulta.index');
         }
         $medicos = App\Medico::orderby('nombre', 'asc')->get();
         $pacientes = App\Paciente::orderby('nombre', 'asc')->get();
-        return view('consulta.crear', compact('medicos', 'pacientes'));
+        return view('consulta.insert', compact('medicos', 'pacientes'));
     }
 
     /**
@@ -51,7 +51,7 @@ class ConsultaController extends Controller
 
         App\Consulta::create($request->all());      
         
-        return redirect()->route('consulta.ver')
+        return redirect()->route('consulta.index')
                 ->with('exito', 'se creo la consulta exitosamente');
     }
 
@@ -70,7 +70,7 @@ class ConsultaController extends Controller
                                 ->where('consultas.id', $id)
                                 ->first();
         
-        return view('consulta.detalle', compact('consulta'));
+        return view('consulta.view', compact('consulta'));
     }
 
     /**
@@ -83,14 +83,14 @@ class ConsultaController extends Controller
     {
         if (Gate::denies('editar-consulta'))
         {
-            return redirect()->route('consulta.ver');
+            return redirect()->route('consulta.index');
         }
 
         $medicos = App\Medico::orderby('nombre', 'asc')->get();
         $pacientes = App\Paciente::orderby('nombre', 'asc')->get();
         $consulta = App\Consulta::findorfail($id);
 
-        return view('consulta.editar', compact('consulta', 'medicos', 'pacientes'));
+        return view('consulta.edit', compact('consulta', 'medicos', 'pacientes'));
     }
 
     /**
@@ -112,7 +112,7 @@ class ConsultaController extends Controller
 
         $consulta->update($request->all());
 
-        return redirect()->route('consulta.ver')
+        return redirect()->route('consulta.index')
                 ->with('exito', 'se ha modificado la consulta correctamente');
     }
 
@@ -126,14 +126,14 @@ class ConsultaController extends Controller
     {
         if (Gate::denies('eliminar-consulta'))
         {
-            return redirect()->route('consulta.ver');
+            return redirect()->route('consulta.index');
         }
 
         $consulta = App\Consulta::findorfail($id);
 
         $consulta->delete();
 
-        return redirect()->route('consulta.ver')
+        return redirect()->route('consulta.index')
                 ->with('exito', 'se ha eliminado la consulta correctamente');
     }
 }

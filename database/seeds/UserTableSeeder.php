@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Rol;
 
-class UserTableSeeder extends Seeder
-
+class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,30 +14,31 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $rolAdmin =Rol::where('nombre','admin')->first();
-        $rolDesarrollador =Rol::where('nombre','desarrolador')->first();
-        $rolUsuario =Rol::where('nombre','usuario')->first();
+        $rolAdmin =Rol::where('nombre', 'admin')->first();
+        $rolMedico =Rol::where('nombre', 'medico')->first();
+        $rolPaciente =Rol::where('nombre', 'paciente')->first();
+
 
         $admin = User::create([
             'name' => 'Usuario Administrador',
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('administrador')
+            'password' => Hash::make('Administrador')
         ]);
 
-        $desarrolador = User::create([
-            'name' => 'Usuario Desarrolador',
-            'email' => 'desarrollador@gmail.com',
-            'password' => Hash::make('desarrollador')
+        $medico = User::create([
+            'name' => 'Usuario Medico',
+            'email' => 'Medico@gmail.com',
+            'password' => Hash::make('Medico')
         ]);
 
-        $usuario = User::create([
-            'name' => 'Usuario general',
-            'email' => 'usuario@gmail.com',
-            'password' => Hash::make('usuario')
+        $paciente = User::create([
+            'name' => 'Usuario Paciente',
+            'email' => 'Paciente@gmail.com',
+            'password' => Hash::make('Paciente')
         ]);
 
         $admin->roles()->attach($rolAdmin);
-        $desarrolador->roles()->attach($rolDesarrollador);
-        $usuario->roles()->attach($rolUsuario);
+        $medico->roles()->attach($rolMedico);
+        $paciente->roles()->attach($rolPaciente);
     }
 }

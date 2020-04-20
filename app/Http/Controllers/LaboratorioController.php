@@ -16,7 +16,7 @@ class LaboratorioController extends Controller
     public function index()
     {
         $laboratorios = App\Laboratorio::orderby('nombre', 'asc')->get();
-        return view('laboratorio.ver', compact('laboratorios'));
+        return view('laboratorio.index', compact('laboratorios'));
     }
 
     /**
@@ -28,9 +28,9 @@ class LaboratorioController extends Controller
     {
         if (Gate::denies('crear-laboratorio'))
         {
-            return redirect()->route('laboratorio.ver');
+            return redirect()->route('laboratorio.index');
         }
-        return view('laboratorio.crear');
+        return view('laboratorio.insert');
     }
 
     /**
@@ -50,7 +50,7 @@ class LaboratorioController extends Controller
 
         App\Laboratorio::create($request->all());      
         
-        return redirect()->route('laboratorio.ver')
+        return redirect()->route('laboratorio.index')
                 ->with('exito', 'Laboratorio creado con exito');
     }
 
@@ -64,7 +64,7 @@ class LaboratorioController extends Controller
     {
         $laboratorio = App\Laboratorio::findorfail($id);
         
-        return view('laboratorio.detalle', compact('laboratorio'));
+        return view('laboratorio.view', compact('laboratorio'));
     }
 
     /**
@@ -77,11 +77,11 @@ class LaboratorioController extends Controller
     {
         if (Gate::denies('editar-laboratorio'))
         {
-            return redirect()->route('laboratorio.ver');
+            return redirect()->route('laboratorio.index');
         }
         $laboratorio = App\Laboratorio::findorfail($id);
 
-        return view('laboratorio.editar', compact('laboratorio'));
+        return view('laboratorio.edit', compact('laboratorio'));
     }
 
     /**
@@ -104,7 +104,7 @@ class LaboratorioController extends Controller
 
         $laboratorio->update($request->all());
 
-        return redirect()->route('laboratorio.ver')
+        return redirect()->route('laboratorio.index')
                 ->with('exito', 'Cambios realizados con exito');
     }
 
@@ -118,14 +118,14 @@ class LaboratorioController extends Controller
     {
         if (Gate::denies('eliminar-laboratorio'))
         {
-            return redirect()->route('laboratorio.ver');
+            return redirect()->route('laboratorio.index');
         }
 
         $laboratorio = App\Laboratorio::findorfail($id);
 
         $laboratorio->delete();
 
-        return redirect()->route('laboratorio.ver')
+        return redirect()->route('laboratorio.index')
                 ->with('exito', 'laboratorio eliminado con exito');
     }
 }

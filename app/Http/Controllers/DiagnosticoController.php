@@ -16,7 +16,7 @@ class DiagnosticoController extends Controller
     public function index()
     {
         $diagnosticos = App\Diagnostico::orderby('tipo', 'asc')->get();
-        return view('diagnostico.ver', compact('diagnosticos'));
+        return view('diagnostico.index', compact('diagnosticos'));
     }
 
     /**
@@ -28,9 +28,9 @@ class DiagnosticoController extends Controller
     {
         if (Gate::denies('crear-diagnostico'))
         {
-            return redirect()->route('diagnostico.ver');
+            return redirect()->route('diagnostico.index');
         }
-        return view('diagnostico.crear');
+        return view('diagnostico.insert');
     }
 
     /**
@@ -49,7 +49,7 @@ class DiagnosticoController extends Controller
 
         App\Diagnostico::create($request->all());      
         
-        return redirect()->route('diagnostico.ver')
+        return redirect()->route('diagnostico.index')
                 ->with('exito', 'se creo el diagnostico con exito');
     }
 
@@ -63,7 +63,7 @@ class DiagnosticoController extends Controller
     {
         $diagnostico = App\Diagnostico::findorfail($id);
         
-        return view('diagnostico.detalle', compact('diagnostico'));
+        return view('diagnostico.view', compact('diagnostico'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -75,11 +75,11 @@ class DiagnosticoController extends Controller
     {
         if (Gate::denies('editar-diagnostico'))
         {
-            return redirect()->route('diagnostico.ver');
+            return redirect()->route('diagnostico.index');
         }
         $diagnostico = App\Diagnostico::findorfail($id);
 
-        return view('diagnostico.editar', compact('diagnostico'));
+        return view('diagnostico.edit', compact('diagnostico'));
     }
 
     /**
@@ -115,14 +115,14 @@ class DiagnosticoController extends Controller
     {
         if (Gate::denies('eliminar-diagnostico'))
         {
-            return redirect()->route('diagnostico.ver');
+            return redirect()->route('diagnostico.index');
         }
 
         $diagnostico = App\Diagnostico::findorfail($id);
 
         $diagnostico->delete();
 
-        return redirect()->route('diagnostico.ver')
+        return redirect()->route('diagnostico.index')
                 ->with('exito', 'se elimino el diagnostico con exito');
     }
 }

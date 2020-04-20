@@ -16,7 +16,7 @@ Hospital
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Codigo/th>
+                <th>Codigo</th>
                 <th>Nombre</th>
                 <th>Direccion</th>
                 <th>Telefono</th>
@@ -41,7 +41,7 @@ Hospital
                     <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>
                 </td>
-            <tr>  
+            </tr>  
             @endforeach
         </tbody>
     </table>
@@ -49,8 +49,8 @@ Hospital
 
     <div class="row">
         <a href="{{route('hospital.create')}} "><button class="btn btn-success">Crear hospital</button></a>
-        <a href="{{route('medico.index')}}"><button class="btn btn-success">Medicos</button></a>
-        <a href="{{route('laboratorio.index')}}"><button class="btn btn-success">Laboratorios</button></a>
+        &nbsp
+        <a href="{{route('home')}}"><button class="btn btn-secondary">Atras</button></a>
     </div>
 @endsection
 

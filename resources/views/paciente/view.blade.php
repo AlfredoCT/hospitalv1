@@ -5,7 +5,7 @@
 @endsection
 
 @section('contenido')
-<h1 class="text-center">paciente</h1>
+<h1 class="text-center">Paciente</h1>
 <br><br>
 <div class="row">
     <div class="col-sm-3">

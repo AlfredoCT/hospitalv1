@@ -15,8 +15,8 @@ class FechaController extends Controller
      */
     public function index()
     {
-        $fecha = App\Fecha::orderby('fecha', 'asc')->get();
-        return view('fecha.ver', compact('fechas'));
+        $fechas = App\Fecha::orderby('fecha', 'asc')->get();
+        return view('fecha.index', compact('fechas'));
     }
 
     /**
@@ -28,11 +28,11 @@ class FechaController extends Controller
     {
         if (Gate::denies('crear-fecha'))
         {
-            return redirect()->route('fecha.ver');
+            return redirect()->route('fecha.index');
         }
         $diagnosticos = App\Diagnostico::orderby('tipo', 'asc')->get();
         $pacientes = App\Paciente::orderby('nombre', 'asc')->get();
-        return view('fecha.crear', compact('diagnosticos', 'pacientes'));
+        return view('fecha.insert', compact('diagnosticos', 'pacientes'));
     }
 
     /**
@@ -51,7 +51,7 @@ class FechaController extends Controller
 
         App\Fecha::create($request->all());      
         
-        return redirect()->route('fecha.ver')
+        return redirect()->route('fecha.index')
                 ->with('exito', 'se creo la fecha con exito');
     }
 
@@ -70,7 +70,7 @@ class FechaController extends Controller
                                 ->where('fecha.id', $id)
                                 ->first();
         
-        return view('fecha.detalle', compact('fecha'));
+        return view('fecha.view', compact('fecha'));
     }
 
     /**
@@ -83,14 +83,14 @@ class FechaController extends Controller
     {
         if (Gate::denies('editar-fecha'))
         {
-            return redirect()->route('fecha.ver');
+            return redirect()->route('fecha.index');
         }
 
         $diagnosticos = App\Diagnostico::orderby('tipo', 'asc')->get();
         $pacientes = App\Paciente::orderby('nombre', 'asc')->get();
         $fecha = App\Fecha::findorfail($id);
 
-        return view('fecha.editar', compact('fecha', 'diagnosticos', 'pacientes'));
+        return view('fecha.edit', compact('fecha', 'diagnosticos', 'pacientes'));
     }
 
     /**
@@ -112,7 +112,7 @@ class FechaController extends Controller
 
         $fecha->update($request->all());
 
-        return redirect()->route('fecha.ver')
+        return redirect()->route('fecha.index')
                 ->with('exito', 'se modifico la fecha con exito');
     }
 
@@ -126,14 +126,14 @@ class FechaController extends Controller
     {
         if (Gate::denies('eliminar-fecha'))
         {
-            return redirect()->route('fecha.ver');
+            return redirect()->route('fecha.index');
         }
 
         $fecha = App\Fecha::findorfail($id);
 
         $fecha->delete();
 
-        return redirect()->route('fecha.ver')
+        return redirect()->route('fecha.index')
                 ->with('exito', 'se elimino la fecha con exito');
     }
 }

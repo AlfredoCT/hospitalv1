@@ -45,5 +45,7 @@ Diagnostico
 
     <div class="row">
         <a href="{{route('diagnostico.create')}} "><button class="btn btn-success">Crear diagnostico</button></a>
+        &nbsp
+        <a href="{{route('home')}} "><button class="btn btn-secondary">Volver</button></a>
     </div>
 @endsection

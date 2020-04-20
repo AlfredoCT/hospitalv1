@@ -16,7 +16,7 @@ class MedicoController extends Controller
     public function index()
     {
         $medicos = App\Medico::orderby('nombre', 'asc')->get();
-        return view('medico.ver', compact('medicos'));
+        return view('medico.index', compact('medicos'));
     }
 
     /**
@@ -28,10 +28,10 @@ class MedicoController extends Controller
     {
         if (Gate::denies('crear-medico'))
         {
-            return redirect()->route('medico.ver');
+            return redirect()->route('medico.index');
         }
         $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
-        return view('medico.crear', compact('hospitales'));
+        return view('medico.insert', compact('hospitales'));
     }
 
     /**
@@ -51,7 +51,7 @@ class MedicoController extends Controller
 
         App\Medico::create($request->all());      
         
-        return redirect()->route('medico.ver')
+        return redirect()->route('medico.index')
                 ->with('exito', 'Se agrego un medico con exito');
     }
 
@@ -68,7 +68,7 @@ class MedicoController extends Controller
                             ->where('medicos.id', $id)
                             ->first();
         
-        return view('medico.detalle', compact('medico'));
+        return view('medico.view', compact('medico'));
     }
 
     /**
@@ -81,13 +81,13 @@ class MedicoController extends Controller
     {
         if (Gate::denies('editar-medico'))
         {
-            return redirect()->route('medico.ver');
+            return redirect()->route('medico.index');
         }
 
         $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
         $medico = App\Medico::findorfail($id);
 
-        return view('medico.editar', compact('medico', 'hospitales'));
+        return view('medico.edit', compact('medico', 'hospitales'));
     }
     /**
      * Update the specified resource in storage.
@@ -109,7 +109,7 @@ class MedicoController extends Controller
 
         $medico->update($request->all());
 
-        return redirect()->route('medico.ver')
+        return redirect()->route('medico.index')
                 ->with('exito', 'Cambios guardados con exito');
     }
 
@@ -123,14 +123,14 @@ class MedicoController extends Controller
     {
         if (Gate::denies('eliminar-medico'))
         {
-            return redirect()->route('medico.ver');
+            return redirect()->route('medico.index');
         }
 
         $medico = App\Medico::findorfail($id);
 
         $medico->delete();
 
-        return redirect()->route('medico.ver')
+        return redirect()->route('medico.index')
                 ->with('exito', 'Medico eliminado con exito');
     }
 }

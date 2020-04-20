@@ -5,7 +5,7 @@
 @endsection
 
 @section('contenido')
-<h1 class="text-center">Detalle consulta</h1>
+<h1 class="text-center">Consulta</h1>
 <br><br>
 <div class="row">
     <div class="col-sm-3">
@@ -33,7 +33,4 @@
 </div>
 <br><br>
 
-<div class="row">
-    <a href="{{route('consulta.index')}}"><button class="btn btn-primary">Regresar</button>
-</div>
 @endsection

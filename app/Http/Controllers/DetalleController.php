@@ -16,7 +16,7 @@ class DetalleController extends Controller
     public function index()
     {
         $detalles = App\Detalle::orderby('descripcion', 'asc')->get();
-        return view('detalle.ver', compact('detalles'));
+        return view('detalle.index', compact('detalles'));
     }
 
     /**
@@ -28,11 +28,11 @@ class DetalleController extends Controller
     {
         if (Gate::denies('crear-detalle'))
         {
-            return redirect()->route('detalle.ver');
+            return redirect()->route('detalle.index');
         }
         $laboratorios = App\Laboratorio::orderby('nombre', 'asc')->get();
         $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
-        return view('detalle.crear', compact('hospitales', 'laboratorios'));
+        return view('detalle.insert', compact('hospitales', 'laboratorios'));
     }
 
     /**
@@ -53,7 +53,7 @@ class DetalleController extends Controller
 
         App\Detalle::create($request->all());      
         
-        return redirect()->route('detalle.ver')
+        return redirect()->route('detalle.index')
                 ->with('exito', 'se creo el detalle exitosamente');
     }
 
@@ -70,7 +70,7 @@ class DetalleController extends Controller
                                 ->where('detalles.id', $id)
                                 ->first();                             
         
-        return view('detalle.detalle', compact('detalle'));
+        return view('detalle.view', compact('detalle'));
     }
 
     /**
@@ -83,14 +83,14 @@ class DetalleController extends Controller
     {
         if (Gate::denies('editar-detalle'))
         {
-            return redirect()->route('detalle.ver');
+            return redirect()->route('detalle.index');
         }
 
         $laboratorios = App\Laboratorio::orderby('nombre', 'asc')->get();
         $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
         $detalle = App\Detalle::findorfail($id);
 
-        return view('detalle.editar', compact('detalle', 'laboratorios', 'hospitales'));
+        return view('detalle.edit', compact('detalle', 'laboratorios', 'hospitales'));
     }
     /**
      * Update the specified resource in storage.
@@ -112,7 +112,7 @@ class DetalleController extends Controller
 
         $detalle->update($request->all());
 
-        return redirect()->route('detalle.ver')
+        return redirect()->route('detalle.index')
                 ->with('exito', 'se modifico el detalle exitosamente');
     }
 
@@ -126,14 +126,14 @@ class DetalleController extends Controller
     {
         if (Gate::denies('eliminar-detalle'))
         {
-            return redirect()->route('detalle.ver');
+            return redirect()->route('detalle.index');
         }
 
         $detalle = App\Detalle::findorfail($id);
 
         $detalle->delete();
 
-        return redirect()->route('detalle.ver')
+        return redirect()->route('detalle.index')
                 ->with('exito', 'se elimino el detalle con exito');
     }
 }

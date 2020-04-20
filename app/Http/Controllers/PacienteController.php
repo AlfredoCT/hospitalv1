@@ -16,7 +16,7 @@ class PacienteController extends Controller
     public function index()
     {
         $pacientes = App\Paciente::orderby('nombre', 'asc')->get();
-        return view('paciente.ver', compact('pacientes'));
+        return view('paciente.index', compact('pacientes'));
     }
 
     /**
@@ -28,10 +28,10 @@ class PacienteController extends Controller
     {
         if (Gate::denies('crear-paciente'))
         {
-            return redirect()->route('paciente.ver');
+            return redirect()->route('paciente.index');
         }
         $salas = App\Sala::orderby('nombre', 'asc')->get();
-        return view('paciente.crear', compact('salas'));
+        return view('paciente.insert', compact('salas'));
     }
 
     /**
@@ -56,7 +56,7 @@ class PacienteController extends Controller
 
             App\Paciente::create($request->all());      
             
-            return redirect()->route('paciente.ver')
+            return redirect()->route('paciente.index')
                     ->with('exito', 'paciente agregado correctamente');
     }
 
@@ -73,7 +73,7 @@ class PacienteController extends Controller
         ->where('pacientes.id', $id)
         ->first();
 
-        return view('paciente.detalle', compact('paciente'));
+        return view('paciente.view', compact('paciente'));
     }
 
     /**
@@ -86,13 +86,13 @@ class PacienteController extends Controller
     {
         if (Gate::denies('editar-paciente'))
         {
-            return redirect()->route('paciente.ver');
+            return redirect()->route('paciente.index');
         }
 
         $salas = App\Sala::orderby('nombre', 'asc')->get();
         $paciente = App\Paciente::findorfail($id);
 
-        return view('paciente.editar', compact('paciente', 'salas'));
+        return view('paciente.edit', compact('paciente', 'salas'));
     }
 
     /**
@@ -119,7 +119,7 @@ class PacienteController extends Controller
 
         $paciente->update($request->all());
 
-        return redirect()->route('paciente.ver')
+        return redirect()->route('paciente.index')
                 ->with('exito', 'se ha modificado el paciente exitosamente');
     }
 
@@ -133,14 +133,14 @@ class PacienteController extends Controller
     {
         if (Gate::denies('eliminar-paciente'))
         {
-            return redirect()->route('paciente.ver');
+            return redirect()->route('paciente.index');
         }
 
         $paciente = App\Paciente::findorfail($id);
 
         $paciente->delete();
 
-        return redirect()->route('paciente.ver')
+        return redirect()->route('paciente.index')
                 ->with('exito', 'se elimino el paciente correctamente');
     }
 }

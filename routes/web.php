@@ -19,20 +19,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home'); 
 
-Route::resource('Admin/users', 'Admin\UserController')->middleware('can:administrar-usuarios');
-
-Route::resource('consulta', 'ConsultaController');
-Route::resource('detalle', 'DetalleController');
-Route::resource('diagnostico', 'DiagnosticoController');
-Route::resource('fecha', 'FechaController');
 Route::resource('hospital', 'HospitalController');
 Route::resource('laboratorio', 'LaboratorioController');
 Route::resource('medico', 'MedicoController');
-Route::resource('paciente', 'PacienteController');
+Route::resource('diagnostico', 'DiagnosticoController');
 Route::resource('sala', 'SalaController');
+Route::resource('paciente', 'PacienteController');
+Route::resource('detalle', 'DetalleController');
+Route::resource('consulta', 'ConsultaController');
+Route::resource('fecha', 'FechaController');
 
 
-
-
+Route::resource('Admin/users','Admin\UserController')->middleware('can:administrar-usuarios');

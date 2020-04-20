@@ -1,11 +1,11 @@
 @extends('layouts.layout')
 
 @section('titulo')
-Fecha de diagnostico
+    Fecha
 @endsection
 
 @section('contenido')
-<h1 class="text-center">Fecha de diagnostico</h1>
+<h1 class="text-center">Fecha</h1>
 <br><br>
     @if ($message = Session::get('exito'))
         <div class="alert alert success">
@@ -25,8 +25,8 @@ Fecha de diagnostico
         <tbody>
             @foreach ($fechas as $fecha)
             <tr>
-                <td>{{$fecha -> idpaciente}}</td
-                <td>{{$fecha -> iddiagnostico}}</td>>                
+                <td>{{$fecha -> idpaciente}}</td>
+                <td>{{$fecha -> iddiagnostico}}</td>              
                 <td>{{$fecha -> fecha}}</td>                
                 <td>
                     <form action="{{route('fecha.destroy', $fecha->id)}}" method="post">
@@ -45,5 +45,7 @@ Fecha de diagnostico
 
     <div class="row">
         <a href="{{route('fecha.create')}} "><button class="btn btn-success">Crear fecha del diagnostico</button></a>
+        &nbsp
+        <a href="{{route('home')}} "><button class="btn btn-secondary">Volver</button></a>
     </div>
 @endsection

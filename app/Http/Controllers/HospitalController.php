@@ -16,7 +16,7 @@ class HospitalController extends Controller
     public function index()
     {
         $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
-        return view('hospital.ver', compact('hospitales'));
+        return view('hospital.index', compact('hospitales'));
     }
 
     /**
@@ -28,9 +28,9 @@ class HospitalController extends Controller
     {
         if (Gate::denies('crear-hospital'))
         {
-            return redirect()->route('hospital.ver');
+            return redirect()->route('hospital.index');
         }
-        return view('hospital.crear');
+        return view('hospital.insert');
     }
 
     /**
@@ -51,7 +51,7 @@ class HospitalController extends Controller
 
         App\Hospital::create($request->all());      
         
-        return redirect()->route('hospital.ver')
+        return redirect()->route('hospital.index')
                 ->with('exito', 'se creo un hospital con exito');
     }
 
@@ -65,7 +65,7 @@ class HospitalController extends Controller
     {
         $hospital = App\Hospital::findorfail($id);
         
-        return view('hospital.detalle', compact('hospital'));
+        return view('hospital.view', compact('hospital'));
     }
 
     /**
@@ -78,11 +78,11 @@ class HospitalController extends Controller
     {
         if (Gate::denies('editar-hospital'))
         {
-            return redirect()->route('hospital.ver');
+            return redirect()->route('hospital.index');
         }
         $hospital = App\Hospital::findorfail($id);
 
-        return view('hospital.editar', compact('hospital'));
+        return view('hospital.edit', compact('hospital'));
     }
 
     /**
@@ -106,7 +106,7 @@ class HospitalController extends Controller
 
         $hospital->update($request->all());
 
-        return redirect()->route('hospital.ver')
+        return redirect()->route('hospital.index')
                 ->with('exito', 'Los cambios se realizaron con exito');
     }
 
@@ -120,14 +120,14 @@ class HospitalController extends Controller
     {
         if (Gate::denies('eliminar-hospital'))
         {
-            return redirect()->route('hospital.ver');
+            return redirect()->route('hospital.index');
         }
 
         $hospital = App\Hospital::findorfail($id);
 
         $hospital->delete();
 
-        return redirect()->route('hospital.ver')
+        return redirect()->route('hospital.index')
                 ->with('exito', 'Hospital Eliminado');
     }
 }

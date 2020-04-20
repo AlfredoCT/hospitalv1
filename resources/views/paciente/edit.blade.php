@@ -80,7 +80,7 @@
     </div>            
 
     <div class="form-row">
-        <button type="submit" class="btn btn-primary">Modificar paciente</button>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </div>
     </form>
 
