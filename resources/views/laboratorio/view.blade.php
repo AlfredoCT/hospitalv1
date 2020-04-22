@@ -42,6 +42,6 @@
 <br><br>
 
 <div class="row">
-    <a href="{{route('laboratorio.index')}}"><button class="btn btn-primary">Regresar</button>
+    <a href="{{route('laboratorio.index')}}"><button class="btn btn-info">Volver</button>
 </div>
 @endsection

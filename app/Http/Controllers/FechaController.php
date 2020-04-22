@@ -63,11 +63,11 @@ class FechaController extends Controller
      */
     public function show($id)
     {
-        $fecha = App\Fecha::join('diagnosticos', 'fecha.iddiagnostico', 'diagnosticos.id',
-                                       'pacientes', 'fecha.idpaciente', 'pacientes.id')
-                                ->select('fecha.*', 'diagnosticos.nombre as diagnostico',
-                                         'fecha.*', 'pacientes.nombre as paciente')
-                                ->where('fecha.id', $id)
+        $fecha = App\Fecha::join('diagnosticos', 'fechas.iddiagnostico', 'diagnosticos.id')
+                                -> join('pacientes', 'fechas.idpaciente', 'pacientes.id')
+                                ->select('fechas.*', 'diagnosticos.tipo as diagnostico',
+                                        'pacientes.nombre as paciente')
+                                ->where('fechas.id', $id)
                                 ->first();
         
         return view('fecha.view', compact('fecha'));

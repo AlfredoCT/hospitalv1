@@ -44,7 +44,7 @@
     <br><br>
 
     <div class="row">
-        <a href="{{route('consulta.create')}} "><button class="btn btn-success">Guardar Consulta</button></a>
+        <a href="{{route('consulta.create')}} "><button class="btn btn-success">Crear Consulta</button></a>
         &nbsp
         <a href="{{route('home')}} "><button class="btn btn-secondary">Volver</button></a>
     </div>

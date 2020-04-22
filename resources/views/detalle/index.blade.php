@@ -26,8 +26,8 @@ Detalles
         <tbody>
             @foreach ($detalles as $detalle)
             <tr>
-                <td>{{$detalle -> idlaboratorio}}</td>
-                <td>{{$detalle -> idhospital}}</td>
+                <td>{{$detalle -> laboratorio}}</td>
+                <td>{{$detalle -> hospital}}</td>
                 <td>{{$detalle -> descripcion}}</td> 
                 <td>{{$detalle -> fecha}}</td>                
                 <td>

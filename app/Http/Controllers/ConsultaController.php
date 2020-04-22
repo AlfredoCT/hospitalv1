@@ -63,10 +63,10 @@ class ConsultaController extends Controller
      */
     public function show($id)
     {
-        $consulta = App\Consulta::join('medicos', 'consultas.idmedico', 'medicos.id',
-                                       'pacientes', 'consultas.idpaciente', 'pacientes.id')
+        $consulta = App\Consulta::join('medicos', 'consultas.idmedico', 'medicos.id')
+                                       -> join('pacientes', 'consultas.idpaciente', 'pacientes.id')
                                 ->select('consultas.*', 'medicos.nombre as medico',
-                                         'consultas.*', 'pacientes.nombre as paciente')
+                                         'pacientes.nombre as paciente')
                                 ->where('consultas.id', $id)
                                 ->first();
         

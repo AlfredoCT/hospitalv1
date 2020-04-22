@@ -12,7 +12,7 @@
         <h3>Medico:</h3>
     </div>
     <div class="col-sm-3">
-        <p class="lead">{{$consulta->idmedico}}</p>
+        <p class="lead">{{$consulta->medico}}</p>
     </div>         
 </div>
 <div class="row">
@@ -20,7 +20,7 @@
         <h3>Paciente:</h3>
     </div>
     <div class="col-sm-3">
-        <p class="lead">{{$consulta->idpaciente}}</p>
+        <p class="lead">{{$consulta->paciente}}</p>
     </div>         
 </div>
 <div class="row">
@@ -33,4 +33,7 @@
 </div>
 <br><br>
 
+<div class="row">
+    <a href="{{route('consulta.index')}}"><button class="btn btn-info">Volver</button>
+</div>
 @endsection

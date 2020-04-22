@@ -44,7 +44,7 @@
     <br><br>
 
     <div class="row">
-        <a href="{{route('fecha.create')}} "><button class="btn btn-success">Crear fecha del diagnostico</button></a>
+        <a href="{{route('fecha.create')}} "><button class="btn btn-success">Crear fecha</button></a>
         &nbsp
         <a href="{{route('home')}} "><button class="btn btn-secondary">Volver</button></a>
     </div>

@@ -65,8 +65,10 @@ class DetalleController extends Controller
      */
     public function show($id)
     {
-        $detalle = App\Detalle::join('laboratorios', 'hospitals', 'detalles.idlaboratorio', 'detalles.idhospital', 'laboratorios.id', 'hospitals.id')
-                                ->select('detalles.*', 'laboratorios.nombre as laboratorio', 'hospitals.nombre as hospital')
+        $detalle = App\Detalle::join('laboratorios', 'detalles.idlaboratorio', 'laboratorios.id')
+                                ->join('hospitals', 'detalles.idhospital', 'hospitals.id')
+                                ->select('detalles.*', 'laboratorios.nombre as laboratorio', 
+                                        'hospitals.nombre as hospital')
                                 ->where('detalles.id', $id)
                                 ->first();                             
         
