@@ -16,7 +16,7 @@ Diagnostico
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Codigo/th>
+                <th>Codigo</th>
                 <th>Tipo</th>
                 <th>Complicaciones</th>
                 <th>Acciones</th>                

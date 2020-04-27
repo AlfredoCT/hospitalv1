@@ -30,7 +30,8 @@ class HospitalController extends Controller
         {
             return redirect()->route('hospital.index');
         }
-        return view('hospital.insert');
+        return view('hospital.create');
+        //return view('hospital.insert');
     }
 
     /**
@@ -41,7 +42,16 @@ class HospitalController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        if($request->ajax())
+        {
+            App\Hospital::create($request->all()); 
+            return response()->json([
+                'mensaje' => 'creado'
+            ]);    
+        }
+        
+      /*  $request->validate([
             'codigo' => 'required',
             'nombre' => 'required',
             'direccion' => 'required',
@@ -52,7 +62,7 @@ class HospitalController extends Controller
         App\Hospital::create($request->all());      
         
         return redirect()->route('hospital.index')
-                ->with('exito', 'se creo un hospital con exito');
+                ->with('exito', 'se creo un hospital con exito');*/
     }
 
     /**

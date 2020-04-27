@@ -19,12 +19,12 @@ Crear nueva fecha de diagnostico
 	
 @endif
 
-<form action="{{route('fecha.store')}}" method="post">
+<form action="{{route('fecha.store')}}" method="post" id="formulario">
     @csrf
     <div class="form-row">
         <div class="form-group col-md-6">
         <label>Paciente:</label>
-            <select name="idpaciente" class="form-control">
+            <select name="idpaciente" class="form-control" id="paciente">
                 @foreach ($pacientes as $paciente)
                     <option value="{{$paciente->id}}">{{$paciente->nombre}}</option>
                 @endforeach
@@ -34,7 +34,7 @@ Crear nueva fecha de diagnostico
     <div class="form-row">
         <div class="form-group col-md-6">
         <label>Diagnostico:</label>
-            <select name="iddiagnostico" class="form-control">
+            <select name="iddiagnostico" class="form-control" id="diagnostico">
                 @foreach ($diagnosticos as $diagnostico)
                     <option value="{{$diagnostico->id}}">{{$diagnostico->tipo}}</option>
                 @endforeach
@@ -44,12 +44,36 @@ Crear nueva fecha de diagnostico
     <div class="form-row">
         <div class="form-group col-md-6">
         <label>Fecha:</label>
-        <input type="date" class="form-control" name="fecha" placeholder="Fecha">
+        <input type="date" class="form-control" name="fecha" placeholder="Fecha" id="fecha">
         </div>
     </div>  
 
     <div class="form-row">
-        <button type="submit" class="btn btn-primary">Crear fecha</button>
+    <a href="#" class="btn btn-primary" id="registro">Crear Fecha</a>
+        &nbsp
+        <a href="{{route('fecha.index')}}" class="btn btn-secondary">Atras</a>
+        <!--<button type="submit" class="btn btn-primary">Crear fecha</button>-->
     </div>
-    </form>
+</form>
+
+<script>
+        $('#registro').click(function(){
+            var datos = $('#formulario').serialize();
+            var ruta = 'guardar';
+
+            $.ajax({
+                data: datos,
+                url: ruta,
+                type: 'POST',
+                dataType: 'json',
+                success: function(){
+                    alert('Fecha creado con exito!');
+                    $('#paciente').val('');
+                    $('#diagnostico').val('');
+                    $('#fecha').val('');
+                }
+            });
+        });
+</script>
+
 @endsection

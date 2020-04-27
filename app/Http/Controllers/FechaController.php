@@ -32,7 +32,8 @@ class FechaController extends Controller
         }
         $diagnosticos = App\Diagnostico::orderby('tipo', 'asc')->get();
         $pacientes = App\Paciente::orderby('nombre', 'asc')->get();
-        return view('fecha.insert', compact('diagnosticos', 'pacientes'));
+        return view('fecha.create', compact('diagnosticos', 'pacientes'));
+        //return view('fecha.insert', compact('diagnosticos', 'pacientes'));
     }
 
     /**
@@ -43,7 +44,16 @@ class FechaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        if($request->ajax())
+        {
+            App\Fecha::create($request->all()); 
+            return response()->json([
+                'mensaje' => 'creado'
+            ]);    
+        }
+
+        /*$request->validate([
             'idpaciente' => 'required',
             'iddiagnostico' => 'required',
             'fecha' => 'required'       
@@ -52,7 +62,7 @@ class FechaController extends Controller
         App\Fecha::create($request->all());      
         
         return redirect()->route('fecha.index')
-                ->with('exito', 'se creo la fecha con exito');
+                ->with('exito', 'se creo la fecha con exito');*/
     }
 
     /**

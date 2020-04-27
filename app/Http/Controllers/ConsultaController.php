@@ -32,7 +32,8 @@ class ConsultaController extends Controller
         }
         $medicos = App\Medico::orderby('nombre', 'asc')->get();
         $pacientes = App\Paciente::orderby('nombre', 'asc')->get();
-        return view('consulta.insert', compact('medicos', 'pacientes'));
+        return view('consulta.create', compact('medicos', 'pacientes'));
+        //return view('consulta.insert', compact('medicos', 'pacientes'));
     }
 
     /**
@@ -43,7 +44,16 @@ class ConsultaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        if($request->ajax())
+        {
+            App\Consulta::create($request->all()); 
+            return response()->json([
+                'mensaje' => 'creado'
+            ]);    
+        }
+
+    /*    $request->validate([
             'idmedico' => 'required',
             'idpaciente' => 'required',
             'fecha' => 'required'
@@ -52,7 +62,7 @@ class ConsultaController extends Controller
         App\Consulta::create($request->all());      
         
         return redirect()->route('consulta.index')
-                ->with('exito', 'se creo la consulta exitosamente');
+                ->with('exito', 'se creo la consulta exitosamente');*/
     }
 
     /**

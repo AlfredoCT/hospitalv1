@@ -32,7 +32,8 @@ class DetalleController extends Controller
         }
         $laboratorios = App\Laboratorio::orderby('nombre', 'asc')->get();
         $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
-        return view('detalle.insert', compact('hospitales', 'laboratorios'));
+        return view('detalle.create', compact('hospitales', 'laboratorios'));
+        //return view('detalle.insert', compact('hospitales', 'laboratorios'));
     }
 
     /**
@@ -43,7 +44,16 @@ class DetalleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        if($request->ajax())
+        {
+            App\Detalle::create($request->all()); 
+            return response()->json([
+                'mensaje' => 'creado'
+            ]);    
+        }
+
+        /*$request->validate([
             'idlaboratorio' => 'required',
             'idhospital' => 'required',
             'descripcion' => 'required',
@@ -54,7 +64,7 @@ class DetalleController extends Controller
         App\Detalle::create($request->all());      
         
         return redirect()->route('detalle.index')
-                ->with('exito', 'se creo el detalle exitosamente');
+                ->with('exito', 'se creo el detalle exitosamente');*/
     }
 
     /**

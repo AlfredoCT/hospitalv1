@@ -33,3 +33,13 @@ Route::resource('fecha', 'FechaController');
 
 
 Route::resource('Admin/users','Admin\UserController')->middleware('can:administrar-usuarios');
+
+Route::post('hospital/guardar', 'HospitalController@store');
+Route::post('consulta/guardar', 'ConsultaController@store');
+Route::post('detalle/guardar', 'DetalleController@store');
+Route::post('diagnostico/guardar', 'DiagnosticoController@store');
+Route::post('fecha/guardar', 'FechaController@store');
+Route::post('laboratorio/guardar', 'LaboratorioController@store');
+Route::post('medico/guardar', 'MedicoController@store');
+Route::post('paciente/guardar', 'PacienteController@store');
+Route::post('sala/guardar', 'SalaController@store');

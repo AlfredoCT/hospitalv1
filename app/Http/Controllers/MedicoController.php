@@ -31,7 +31,8 @@ class MedicoController extends Controller
             return redirect()->route('medico.index');
         }
         $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
-        return view('medico.insert', compact('hospitales'));
+        return view('medico.create', compact('hospitales'));
+        //return view('medico.insert', compact('hospitales'));
     }
 
     /**
@@ -42,7 +43,16 @@ class MedicoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        if($request->ajax())
+        {
+            App\Medico::create($request->all());  
+            return response()->json([
+                'mensaje' => 'creado'
+            ]);    
+        }
+
+        /*$request->validate([
             'idhospital' => 'required',
             'cedula' => 'required',
             'nombre' => 'required',
@@ -52,7 +62,7 @@ class MedicoController extends Controller
         App\Medico::create($request->all());      
         
         return redirect()->route('medico.index')
-                ->with('exito', 'Se agrego un medico con exito');
+                ->with('exito', 'Se agrego un medico con exito');*/
     }
 
     /**

@@ -30,7 +30,8 @@ class LaboratorioController extends Controller
         {
             return redirect()->route('laboratorio.index');
         }
-        return view('laboratorio.insert');
+        return view('laboratorio.create');
+        //return view('laboratorio.insert');
     }
 
     /**
@@ -41,7 +42,16 @@ class LaboratorioController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        if($request->ajax())
+        {
+            App\Laboratorio::create($request->all());   
+            return response()->json([
+                'mensaje' => 'creado'
+            ]);    
+        }
+
+        /*$request->validate([
             'codigo' => 'required',
             'nombre' => 'required',
             'direccion' => 'required',
@@ -51,7 +61,7 @@ class LaboratorioController extends Controller
         App\Laboratorio::create($request->all());      
         
         return redirect()->route('laboratorio.index')
-                ->with('exito', 'Laboratorio creado con exito');
+                ->with('exito', 'Laboratorio creado con exito');*/
     }
 
     /**

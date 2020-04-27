@@ -31,7 +31,8 @@ class SalaController extends Controller
             return redirect()->route('sala.index');
         }
         $hospitales = App\Hospital::orderby('nombre', 'asc')->get();
-        return view('sala.insert', compact('hospitales'));
+        return view('sala.create', compact('hospitales'));
+        //return view('sala.insert', compact('hospitales'));
     }
 
     /**
@@ -42,7 +43,16 @@ class SalaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        if($request->ajax())
+        {
+            App\Sala::create($request->all());  
+            return response()->json([
+                'mensaje' => 'creado'
+            ]);    
+        }
+
+        /*$request->validate([
             'idhospital' => 'required',
             'codigo' => 'required',
             'nombre' => 'required',
@@ -52,7 +62,7 @@ class SalaController extends Controller
         App\Sala::create($request->all());      
         
         return redirect()->route('sala.index')
-                ->with('exito', 'Sala creada con exito');
+                ->with('exito', 'Sala creada con exito');*/
     }
 
     /**

@@ -46,7 +46,7 @@ Sala
     <br><br>
 
     <div class="row">
-        <a href="{{route('sala.create')}} "><button class="btn btn-success">Guardar Sala</button></a>
+        <a href="{{route('sala.create')}} "><button class="btn btn-success">Crear Sala</button></a>
         &nbsp
         <a href="{{route('home')}}"><button class="btn btn-secondary">Volver</button></a>
     </div>
