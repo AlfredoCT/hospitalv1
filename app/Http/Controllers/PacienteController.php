@@ -31,8 +31,8 @@ class PacienteController extends Controller
             return redirect()->route('paciente.index');
         }
         $salas = App\Sala::orderby('nombre', 'asc')->get();
-        return view('paciente.create', compact('salas'));
-        //return view('paciente.insert', compact('salas'));
+        //return view('paciente.create', compact('salas'));
+        return view('paciente.insert', compact('salas'));
     }
 
     /**
@@ -44,15 +44,7 @@ class PacienteController extends Controller
     public function store(Request $request)
     {
 
-        if($request->ajax())
-        {
-            App\Paciente::create($request->all()); 
-            return response()->json([
-                'mensaje' => 'creado'
-            ]);    
-        }
-
-        /*$request->validate([
+        $request->validate([
             'idsala' => 'required',
             'cedula' => 'required',
             'registro' => 'required',
@@ -67,7 +59,7 @@ class PacienteController extends Controller
             App\Paciente::create($request->all());      
             
             return redirect()->route('paciente.index')
-                    ->with('exito', 'paciente agregado correctamente');*/
+                    ->with('exito', 'paciente agregado correctamente');
     }
 
     /**
