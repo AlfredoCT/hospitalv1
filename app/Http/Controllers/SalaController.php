@@ -46,21 +46,21 @@ class SalaController extends Controller
 
         if($request->ajax())
         {
-            App\Sala::create($request->all());  
+            App\Sala::create($request->all());
             return response()->json([
                 'mensaje' => 'creado'
-            ]);    
+            ]);
         }
 
         /*$request->validate([
             'idhospital' => 'required',
             'codigo' => 'required',
             'nombre' => 'required',
-            'ncamas' => 'required',                   
+            'ncamas' => 'required',
         ]);
 
-        App\Sala::create($request->all());      
-        
+        App\Sala::create($request->all());
+
         return redirect()->route('sala.index')
                 ->with('exito', 'Sala creada con exito');*/
     }
@@ -77,7 +77,7 @@ class SalaController extends Controller
                             ->select('salas.*', 'hospitals.nombre as hospital')
                             ->where('salas.id', $id)
                             ->first();
-        
+
         return view('sala.view', compact('sala'));
     }
 
@@ -113,9 +113,9 @@ class SalaController extends Controller
             'idhospital' => 'required',
             'codigo' => 'required',
             'nombre' => 'required',
-            'ncamas' => 'required',             
+            'ncamas' => 'required',
         ]);
-        
+
         $sala = App\Sala::findorfail($id);
 
         $sala->update($request->all());

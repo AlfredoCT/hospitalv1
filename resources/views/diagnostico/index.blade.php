@@ -9,7 +9,7 @@ Diagnostico
 <br><br>
     @if ($message = Session::get('exito'))
         <div class="alert alert success">
-        <p> {{$message}}</p>
+        <p style="color:#00ff59"> {{$message}}</p>
         </div>
     @endif
 
@@ -19,7 +19,7 @@ Diagnostico
                 <th>Codigo</th>
                 <th>Tipo</th>
                 <th>Complicaciones</th>
-                <th>Acciones</th>                
+                <th>Acciones</th>
             <tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@ Diagnostico
             <tr>
                 <td>{{$diagnostico -> codigo}}</td>
                 <td>{{$diagnostico -> tipo}}</td>
-                <td>{{$diagnostico -> complicaciones}}</td>                
+                <td>{{$diagnostico -> complicaciones}}</td>
                 <td>
                     <form action="{{route('diagnostico.destroy', $diagnostico->id)}}" method="post">
                     <a href="{{route('diagnostico.show', $diagnostico->id)}}" class="btn btn-info">Ver</a>
@@ -37,7 +37,7 @@ Diagnostico
                     <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>
                 </td>
-            <tr>  
+            <tr>
             @endforeach
         </tbody>
     </table>

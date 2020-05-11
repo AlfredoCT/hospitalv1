@@ -45,10 +45,10 @@ class DiagnosticoController extends Controller
 
         if($request->ajax())
         {
-            App\Diagnostico::create($request->all()); 
+            App\Diagnostico::create($request->all());
             return response()->json([
                 'mensaje' => 'creado'
-            ]);    
+            ]);
         }
 
         /*$request->validate([
@@ -57,8 +57,8 @@ class DiagnosticoController extends Controller
             'complicaciones' => 'required'
         ]);
 
-        App\Diagnostico::create($request->all());      
-        
+        App\Diagnostico::create($request->all());
+
         return redirect()->route('diagnostico.index')
                 ->with('exito', 'se creo el diagnostico con exito');*/
     }
@@ -72,7 +72,7 @@ class DiagnosticoController extends Controller
     public function show($id)
     {
         $diagnostico = App\Diagnostico::findorfail($id);
-        
+
         return view('diagnostico.view', compact('diagnostico'));
     }
     /**
@@ -106,7 +106,7 @@ class DiagnosticoController extends Controller
             'tipo' => 'required',
             'complicaciones' => 'required'
         ]);
-        
+
         $diagnostico = App\Diagnostico::findorfail($id);
 
         $diagnostico->update($request->all());
